@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:libraries_in_japan/detail.dart';
 import 'package:libraries_in_japan/entity/library.dart';
 import 'package:libraries_in_japan/service/library_service.dart';
 
@@ -92,6 +93,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   title: new Text(library.formal),
                   subtitle: new Text(library.address),
                   trailing: new Icon(Icons.info, color: Theme.of(context).disabledColor),
+                  onTap: () {
+                    Navigator.push(context, new MaterialPageRoute<Null>(
+                      settings: const RouteSettings(name: "/detail"),
+                      builder: (BuildContext context) => new Detail(library)
+                    ));
+                  },
                 );
               }).toList()
           )
