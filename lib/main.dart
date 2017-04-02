@@ -1,4 +1,7 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:libraries_in_japan/entity/library.dart';
+import 'package:libraries_in_japan/service/library_service.dart';
 
 void main() {
   runApp(new MyApp());
@@ -9,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Libraries In Japan',
       theme: new ThemeData(
         // This is the theme of your application.
         //
@@ -22,7 +25,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: new MyHomePage(title: 'Flutter Demo Home Page'),
+      home: new MyHomePage(title: 'Libraries In Japan'),
     );
   }
 }
@@ -46,17 +49,20 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  List<Library> _libraries = [];
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that
-      // something has changed in this State, which causes it to rerun
-      // the build method below so that the display can reflect the
-      // updated values. If we changed _counter without calling
-      // setState(), then the build method would not be called again,
-      // and so nothing would appear to happen.
-      _counter++;
+  Future<Null> _searchLibraries() async {
+    LibraryService libraryService = new LibraryService();
+    libraryService.getLibraries().then((List<Library> libraries) {
+      setState(() {
+        // This call to setState tells the Flutter framework that
+        // something has changed in this State, which causes it to rerun
+        // the build method below so that the display can reflect the
+        // updated values. If we changed _counter without calling
+        // setState(), then the build method would not be called again,
+        // and so nothing would appear to happen.
+        _libraries = libraries;
+      });
     });
   }
 
@@ -75,15 +81,25 @@ class _MyHomePageState extends State<MyHomePage> {
         // our appbar title.
         title: new Text(config.title),
       ),
-      body: new Center(
-        child: new Text(
-          'Button tapped $_counter time${ _counter == 1 ? '' : 's' }.',
-        ),
+      body: new Scrollbar(
+          child: new ListView(
+              padding: new EdgeInsets.symmetric(vertical: 8.0),
+              children: _libraries.map((library) {
+                return new ListTile(
+                  isThreeLine: false,
+                  dense: false,
+                  leading: new CircleAvatar(child: new Image.asset('images/${library.category}.png')),
+                  title: new Text(library.formal),
+                  subtitle: new Text(library.address),
+                  trailing: new Icon(Icons.info, color: Theme.of(context).disabledColor),
+                );
+              }).toList()
+          )
       ),
       floatingActionButton: new FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: new Icon(Icons.add),
+        onPressed: _searchLibraries,
+        tooltip: 'Search',
+        child: new Icon(Icons.search),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
