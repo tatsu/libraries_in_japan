@@ -31,7 +31,7 @@ class LibraryService {
       HttpClientRequest request = await _httpClient.getUrl(uri);
       HttpClientResponse response = await request.close();
       StringBuffer buffer = new StringBuffer();
-      await for (String a in await response.transform(UTF8.decoder)) {
+      await for (String a in response.transform(utf8.decoder)) {
         buffer.write(a);
       }
       String data = buffer.toString();
