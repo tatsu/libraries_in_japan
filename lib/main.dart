@@ -90,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   isThreeLine: false,
                   dense: false,
                   leading: new CircleAvatar(child: new Image.asset('images/${library.category}.png')),
-                  title: new Text(library.formal),
+                  title: new Text(library.formalName),
                   subtitle: new Text(library.address),
                   trailing: new Icon(Icons.info, color: Theme.of(context).disabledColor),
                   onTap: () {

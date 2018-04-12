@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dartson/dartson.dart';
 import 'package:libraries_in_japan/config.dart';
 import 'package:libraries_in_japan/entity/library.dart';
 
@@ -35,8 +34,7 @@ class LibraryService {
         buffer.write(a);
       }
       String data = buffer.toString();
-      Dartson dartson = new Dartson.JSON();
-      List<Library> libraries = dartson.decode(data, new Library(), true);
+      List<Library> libraries = (json.decode(data) as List).map((e) => new Library.fromJson(e)).toList();
       return libraries;
     } catch (e) {
       throw _handleError(e);

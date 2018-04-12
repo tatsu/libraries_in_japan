@@ -19,7 +19,7 @@ class Detail extends StatelessWidget {
                 child: new Image.asset('images/${_library.category}.png')),
             new Container(
                 margin: const EdgeInsets.all(16.0),
-                child: new Text(_library.formal,
+                child: new Text(_library.formalName,
                     style: new TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.w400,
@@ -33,7 +33,7 @@ class Detail extends StatelessWidget {
               child: new Text(_library.tel)),
           new Container(
               margin: const EdgeInsets.all(16.0),
-              child: new Text(_library.url_pc)),
+              child: new Text(_library.urlPC)),
         ]));
   }
 }
