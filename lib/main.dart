@@ -1,10 +1,30 @@
 import 'dart:async';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart'
+    show debugDefaultTargetPlatformOverride;
 import 'package:flutter/material.dart';
 import 'package:libraries_in_japan/detail.dart';
 import 'package:libraries_in_japan/entity/library.dart';
 import 'package:libraries_in_japan/service/library_service.dart';
 
+/// If the current platform is desktop, override the default platform to
+/// a supported platform (iOS for macOS, Android for Linux and Windows).
+/// Otherwise, do nothing.
+void _setTargetPlatformForDesktop() {
+  TargetPlatform targetPlatform;
+  if (Platform.isMacOS) {
+    targetPlatform = TargetPlatform.iOS;
+  } else if (Platform.isLinux || Platform.isWindows) {
+    targetPlatform = TargetPlatform.android;
+  }
+  if (targetPlatform != null) {
+    debugDefaultTargetPlatformOverride = targetPlatform;
+  }
+}
+
 void main() {
+  _setTargetPlatformForDesktop();
   runApp(new MyApp());
 }
 
